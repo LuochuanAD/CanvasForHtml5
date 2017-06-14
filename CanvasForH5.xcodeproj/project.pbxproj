@@ -57,7 +57,7 @@
 		4442AF141EF12CCE00EE570C /* RKSwipeBetweenViewControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4442AF131EF12CCE00EE570C /* RKSwipeBetweenViewControllers.m */; };
 		4442AF181EF12CFC00EE570C /* LCUIWebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4442AF161EF12CFC00EE570C /* LCUIWebViewViewController.m */; };
 		4442AF191EF12CFC00EE570C /* LCUIWebViewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4442AF171EF12CFC00EE570C /* LCUIWebViewViewController.xib */; };
-		4442AF211EF1312500EE570C /* CanvasForH5.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4442AF201EF1312500EE570C /* CanvasForH5.gif */; };
+		802CF2201EF17D0600B011C6 /* Untitled.gif in Resources */ = {isa = PBXBuildFile; fileRef = 802CF21F1EF17D0600B011C6 /* Untitled.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -117,7 +117,7 @@
 		4442AF151EF12CFC00EE570C /* LCUIWebViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCUIWebViewViewController.h; sourceTree = "<group>"; };
 		4442AF161EF12CFC00EE570C /* LCUIWebViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCUIWebViewViewController.m; sourceTree = "<group>"; };
 		4442AF171EF12CFC00EE570C /* LCUIWebViewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LCUIWebViewViewController.xib; sourceTree = "<group>"; };
-		4442AF201EF1312500EE570C /* CanvasForH5.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = CanvasForH5.gif; sourceTree = "<group>"; };
+		802CF21F1EF17D0600B011C6 /* Untitled.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Untitled.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,7 +159,7 @@
 				4442AEAF1EF12AD600EE570C /* ViewController.m */,
 				4442AEB11EF12AD600EE570C /* Main.storyboard */,
 				4442AEB41EF12AD600EE570C /* Assets.xcassets */,
-				4442AF201EF1312500EE570C /* CanvasForH5.gif */,
+				802CF21F1EF17D0600B011C6 /* Untitled.gif */,
 				4442AEB61EF12AD600EE570C /* LaunchScreen.storyboard */,
 				4442AEB91EF12AD600EE570C /* Info.plist */,
 				4442AEA81EF12AD600EE570C /* Supporting Files */,
@@ -333,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4442AEE91EF12B5C00EE570C /* allowNomal.html in Resources */,
+				802CF2201EF17D0600B011C6 /* Untitled.gif in Resources */,
 				4442AF071EF12B5C00EE570C /* placeOn.html in Resources */,
 				4442AF0E1EF12B5C00EE570C /* total.html in Resources */,
 				4442AEED1EF12B5C00EE570C /* delayNumber_min.png in Resources */,
@@ -345,7 +346,6 @@
 				4442AEEB1EF12B5C00EE570C /* Completed.png in Resources */,
 				4442AEFA1EF12B5C00EE570C /* levelFour.png in Resources */,
 				4442AF191EF12CFC00EE570C /* LCUIWebViewViewController.xib in Resources */,
-				4442AF211EF1312500EE570C /* CanvasForH5.gif in Resources */,
 				4442AF041EF12B5C00EE570C /* peakTravellerRank.html in Resources */,
 				4442AF0A1EF12B5C00EE570C /* real.png in Resources */,
 				4442AF091EF12B5C00EE570C /* rank.png in Resources */,
