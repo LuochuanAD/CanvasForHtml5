@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<title>旅客</title>
+		<style type="text/css">
+			.top {
+				width: 100%;
+				height: 39rem;
+				text-align: center;
+				background: url(travellerOnBg.png) no-repeat center;
+				background-size: contain;
+			}
+			.secondtop {
+				width: 100%;
+				height: 39rem;
+				text-align: center;
+				background: url(isolateTimeBg.png) no-repeat center;
+				background-size: contain;
+			}
+			.purch::before {
+				background-color: green;
+			}
+			
+			.grey::before {
+				background-color: #808080;
+			}
+			
+			.tabText {
+				position: relative;
+				margin-top: 10px;
+			}
+			
+			.tabText::before {
+				display: block;
+				position: absolute;
+				top: 0.5rem;
+				left: 3rem;
+				width: 1rem;
+				height: 1rem;
+				content: '';
+				border-radius: 0.5rem;
+			}
+			
+			.tabCont td {
+				font-size: 30px;
+				color: white;
+			}
+			#bottomFirstButton{
+				margin-left:27%;
+				width: 46%;
+				height: 7rem;
+				border: 2px solid #1DABE2;
+				margin-top: 12rem;
+				border-radius: 3rem;
+				font-size: 57px;
+				text-align: center;
+				background: white;
+				color: #1DABE2;
+			}
+			#bottomSecondButton{
+				margin-left:27%;
+				width: 46%;
+				height: 7rem;
+				border: 2px solid #1DABE2;
+				margin-top: 10rem;
+				margin-bottom: 4rem;
+				border-radius: 3rem;
+				font-size: 47px;
+				text-align: center;
+				background: white;
+				color: #1DABE2;
+			}
+		</style>
+		<link rel="stylesheet" href="swiper-3.4.2.min.css">
+	</head>
+
+	<body>
+		<script src="swiper-3.4.2.min.js"></script>
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<div class="top">
+						<table style="width: 98%;padding-left: 2.0%;padding-top: 5rem;" cellspacing="0px">
+							<tr>
+								<td colspan="3" style="text-align: left;font-size: 30px;color: white;">旅客进出港统计表</td>
+								<td style="text-align: center;font-size: 30px;color: white;">916</td>
+								<td style="text-align: center;font-size: 30px;color: white;">5067</td>
+							</tr>
+							<tr class="tabCont">
+								<td style="text-align: center;" class="tabText purch">计划</td>
+								<td style="text-align: center;" class="tabText grey">实际</td>
+								<td style="text-align: center;"></td>
+								<td style="text-align: center;">&lt;30min进港</td>
+								<td style="text-align: center;">&lt;1h出港</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;font-size: 30px;color: white;border-top: 1px solid white;"></td>
+								<td style="text-align: center;font-size: 30px;color: white;border-top: 1px solid white;"></td>
+								<td style="text-align: center;font-size: 30px;color: white;border-top: 1px solid white;"></td>
+								<td style="text-align: center;font-size: 30px;color: white;border-top: 1px solid white;"></td>
+								<td style="text-align: right;font-size: 20px;color: white;border-top: 1px solid white;">87108</td>
+							</tr>
+						</table>
+
+						<canvas id="bchart_a" width="850" height="300"></canvas>
+						<table style="width: 95%;padding-left: 2.5%;" cellspacing="0px">
+							<tr>
+								<td style="padding-top: 20px;text-align: center;font-size: 30px;color: white;border-top: 1px solid white;">进港</td>
+								<td style="padding-top: 20px;text-align: center;font-size: 30px;color: white;border-top: 1px solid white;">出港</td>
+							</tr>
+						</table>
+					</div>
+
+					<table style="width: 100%;height: 19rem;margin-top: -4rem;" cellspacing="0px">
+						<tr>
+							<td width="10%" style="padding-left: 2rem;border-bottom: 1px solid gray;"><img src="on.png" alt="on" width="35px" height="35px" /></td>
+							<td width="40%" style="text-align: left;font-size: 50px;color:black;border-bottom: 1px solid gray;">进港(计划/实际)</td>
+							<td width="50%" style="text-align: right;font-size: 40px;color: black;border-bottom: 1px solid gray;padding-right: 1rem;"onclick="window.open('TravellerHour.html')" >54324/15114</td>
+						</tr>
+						<tr>
+							<td width="10%" style="padding-left: 2rem;border-bottom: 1px solid gray;"><img src="out.png" alt="out" width="35px" height="35px" /></td>
+							<td width="40%" style="text-align: left;font-size: 50px;color: black;border-bottom: 1px solid gray;">出港(计划/实际)</td>
+							<td width="50%" style="text-align: right;font-size: 40px;color: black;border-bottom: 1px solid gray;padding-right: 1rem;"onclick="window.open('TravellerHour.html')">54443/19803</td>
+						</tr>
+					</table>
+					<button id="bottomFirstButton">隔离区732</button>
+
+				</div>
+				<div class="swiper-slide">
+					<div class="secondtop">
+						<table style="width: 98%;padding-left: 2.0%;padding-top: 5rem;" cellspacing="0px">
+							<tr>
+								<td colspan="3" style="text-align: left;font-size: 30px;color: white;">机上等待时间</td>
+								<td style="text-align: center;font-size: 30px;color: white;"></td>
+								<td style="text-align: center;font-size: 30px;color: white;"></td>
+							</tr>
+							<tr class="tabCont">
+								<td style="text-align: center;" ></td>
+								<td style="text-align: center;"></td>
+								<td style="text-align: center;"></td>
+								<td style="text-align: center;"></td>
+								<td style="text-align: center;"></td>
+							</tr>
+							<tr>
+								<td style="text-align: center;font-size: 30px;color: white;border-top: 1px solid white;"></td>
+								<td style="text-align: center;font-size: 30px;color: white;border-top: 1px solid white;"></td>
+								<td style="text-align: center;font-size: 30px;color: white;border-top: 1px solid white;"></td>
+								<td style="text-align: center;font-size: 30px;color: white;border-top: 1px solid white;"></td>
+								<td style="text-align: right;font-size: 20px;color: white;border-top: 1px solid white;">1</td>
+							</tr>
+						</table>
+
+						<canvas id="bchart_b" width="850" height="300"></canvas>
+						<table style="width: 95%;padding-left: 2.5%;" cellspacing="0px">
+							<tr>
+								<td style="padding-top: 20px;text-align: center;font-size: 30px;color: white;border-top: 1px solid white;">45min以下</td>
+								<td style="padding-top: 20px;text-align: center;font-size: 30px;color: white;border-top: 1px solid white;">45-90min</td>
+								<td style="padding-top: 20px;text-align: center;font-size: 30px;color: white;border-top: 1px solid white;">90-150min</td>
+								<td style="padding-top: 20px;text-align: center;font-size: 30px;color: white;border-top: 1px solid white;">150以上</td>
+							</tr>
+						</table>
+					</div>
+
+					<table style="width: 100%;height: 30rem;margin-top: -4rem;" cellspacing="0px">
+						<tr>
+							<td width="10%" style="padding-left: 2rem;border-bottom: 1px solid gray;"><img src="less.png" alt="on" width="35px" height="35px" /></td>
+							<td width="40%" style="text-align: left;font-size: 50px;color:black;border-bottom: 1px solid gray;">45min以下</td>
+							<td width="50%" style="text-align: right;font-size: 40px;color: black;border-bottom: 1px solid gray;padding-right: 1rem;">324</td>
+						</tr>
+						<tr>
+							<td width="10%" style="padding-left: 2rem;border-bottom: 1px solid gray;"><img src="out.png" alt="out" width="35px" height="35px" /></td>
+							<td width="40%" style="text-align: left;font-size: 50px;color: black;border-bottom: 1px solid gray;">45-90min</td>
+							<td width="50%" style="text-align: right;font-size: 40px;color: black;border-bottom: 1px solid gray;padding-right: 1rem;">254</td>
+						</tr>
+						<tr>
+							<td width="10%" style="padding-left: 2rem;border-bottom: 1px solid gray;"><img src="out.png" alt="out" width="35px" height="35px" /></td>
+							<td width="40%" style="text-align: left;font-size: 50px;color: black;border-bottom: 1px solid gray;">90-150min</td>
+							<td width="50%" style="text-align: right;font-size: 40px;color: black;border-bottom: 1px solid gray;padding-right: 1rem;">543</td>
+						</tr>
+						<tr>
+							<td width="10%" style="padding-left: 2rem;border-bottom: 1px solid gray;"><img src="more.png" alt="out" width="35px" height="35px" /></td>
+							<td width="40%" style="text-align: left;font-size: 50px;color: black;border-bottom: 1px solid gray;">150以上</td>
+							<td width="50%" style="text-align: right;font-size: 40px;color: black;border-bottom: 1px solid gray;padding-right: 1rem;">473</td>
+						</tr>
+					</table>
+					<button id="bottomSecondButton">高峰旅客日排名</button>
+
+				</div>
+			</div>
+			
+			<div class="swiper-pagination"></div>
+			
+		</div>
+
+		<script>
+			var swiper = new Swiper('.swiper-container', {
+//      pagination: '.swiper-pagination',
+        direction: 'horizontal',
+        
+        slidesPerView: 'auto',
+        pagination: '.swiper-pagination',
+        spaceBetween: 0,
+        mousewheelControl: true,
+        
+    });  
+    document.getElementById("bottomFirstButton").addEventListener('click',function(){
+    		window.location.href="isolateTimeAndArea.html";
+    },false);
+    document.getElementById("bottomSecondButton").addEventListener('click',function(){
+    		window.location.href="peakTravellerRank.html";
+    },false);
+		</script>
+
+
+		<script type="text/javascript">
+			// chart sample data
+			var arrVisitors = new Array();
+			
+
+			var canvas_a;
+			var context_a;
+			var canvas_b;
+			var context_b;
+
+			window.onload = function() {
+				barChart();
+				barChart_b();
+			}
+
+			function barChart() {
+				arrVisitors[0] = "进港, 54324";
+			arrVisitors[1] = "进港, 15114";
+			arrVisitors[2] = "出港, 54443";
+			arrVisitors[3] = "出港, 19803";
+				canvas_a = document.getElementById('bchart_a');
+				if(canvas_a && canvas_a.getContext) {
+					context_a = canvas_a.getContext('2d');
+				}
+
+
+				drawChartWithAnimation(canvas_a,context_a);
+				drawText(context_a,canvas_a);
+			}
+			function barChart_b() {
+				arrVisitors[0] = "45min以下, 324";
+			arrVisitors[1] = "45-90min, 254";
+			arrVisitors[2] = "90-150min, 543";
+			arrVisitors[3] = "150以上, 473";
+				canvas_b = document.getElementById('bchart_b');
+				if(canvas_b && canvas_b.getContext) {
+					context_b = canvas_b.getContext('2d');
+				}
+
+
+				drawChartWithAnimation_b(canvas_b,context_b);
+				drawText(context_b,canvas_b);
+			}
+			
+
+			function drawChartWithAnimation(canvas,context) {
+				// Loop through the total bars and draw
+				var cMargin = 25;
+				var cSpace = 60;
+				var cHeight = canvas.height - 2 * cMargin - cSpace;
+				var cWidth = canvas.width - 2 * cMargin - cSpace;
+				var cMarginSpace = cMargin + cSpace;
+				var cMarginHeight = cMargin + cHeight;
+				// bar properties
+				var bMargin = 15;
+				var totalBars = arrVisitors.length;
+				var bWidth = ((cWidth / totalBars) - bMargin) / 4;
+				// find maximum value to plot on chart
+				var maxDataValue = 0;
+				for(var i = 0; i < totalBars; i++) {
+					var arrVal = arrVisitors[i].split(",");
+					var barVal = parseInt(arrVal[1]);
+					if(parseInt(barVal) > parseInt(maxDataValue))
+						maxDataValue = barVal;
+				}
+				var totLabelsOnYAxis = 10;
+				context.font = "10pt Garamond";
+
+				// initialize Animation variables
+				ctr = 100;
+				numctr = 100;
+				speed = 10;
+				
+				
+				for(var i = 0; i < totalBars; i++) {
+					var arrVal = arrVisitors[i].split(",");
+					bVal = parseInt(arrVal[1]);
+					bHt = (bVal * cHeight / maxDataValue) / numctr * ctr;
+					bX = cMarginSpace + (i * (bWidth + bMargin)) + bMargin;
+					if(i == 0) {
+						bX = canvas.width / 4 - 50;
+					} else if(i == 1) {
+						bX = canvas.width / 4 + 50;
+					} else if(i == 2) {
+						bX = canvas.width / 4 * 3 - 50;
+					} else if(i == 3) {
+						bX = canvas.width / 4 * 3 + 50;
+					}
+					bY = cMarginHeight - bHt + 70;
+					if(i % 2 == 0) {
+						if(bHt > 0) {
+							drawRectangle(bX, bY, bWidth, bHt,context, true);
+						}
+
+					} else {
+						if(bHt > 0) {
+							drawRectangle1(bX, bY, bWidth, bHt,context, true);
+						}
+
+					}
+
+				}
+
+			}
+			function drawChartWithAnimation_b(canvas,context) {
+				// Loop through the total bars and draw
+				var cMargin = 25;
+				var cSpace = 60;
+				var cHeight = canvas.height - 2 * cMargin - cSpace;
+				var cWidth = canvas.width - 2 * cMargin - cSpace;
+				var cMarginSpace = cMargin + cSpace;
+				var cMarginHeight = cMargin + cHeight;
+				// bar properties
+				var bMargin = 15;
+				var totalBars = arrVisitors.length;
+				var bWidth = ((cWidth / totalBars) - bMargin) / 5;
+				// find maximum value to plot on chart
+				var maxDataValue = 0;
+				for(var i = 0; i < totalBars; i++) {
+					var arrVal = arrVisitors[i].split(",");
+					var barVal = parseInt(arrVal[1]);
+					if(parseInt(barVal) > parseInt(maxDataValue))
+						maxDataValue = barVal;
+				}
+				var totLabelsOnYAxis = 10;
+				context.font = "10pt Garamond";
+
+				// initialize Animation variables
+				ctr = 100;
+				numctr = 100;
+				speed = 10;
+				
+				
+				for(var i = 0; i < totalBars; i++) {
+					var arrVal = arrVisitors[i].split(",");
+					bVal = parseInt(arrVal[1]);
+					bHt = (bVal * cHeight / maxDataValue) / numctr * ctr;
+					bX = cMarginSpace + (i * (canvas.width/4)) + bMargin;
+					
+					bY = cMarginHeight - bHt + 70;
+					
+					if(bHt > 0) {
+						drawRectangle_b(bX, bY, bWidth, bHt,context, true);
+					}
+
+					
+
+				}
+
+			}
+			function drawText(context,canvas) {
+				context.save(); //save和restore可以保证样式属性只运用于该段canvas元素
+				context.strokeStyle = "white"; //设置描边样式
+				context.fillStyle = "white";
+
+				context.font = "20px sans-serif"; //设置字体大小和字体
+
+				//绘制字体，并且指定位置
+				context.fillText("0", canvas.width * 0.98, canvas.height * 0.98);
+
+				context.stroke(); //执行绘制
+
+				context.restore();
+			}
+
+			function drawRectangle(x, y, w, h,context,fill) {
+				context.beginPath();
+
+				context.rect(x, y, w, h,context);
+				drawRoundRect(x, y, w, h, w / 2,context);
+				context.closePath();
+				context.stroke();
+				if(fill) {
+					var gradient = context.createLinearGradient(0, 0, 0, 300);
+					gradient.addColorStop(0, 'green');
+					gradient.addColorStop(1, 'green');
+					context.fillStyle = gradient;
+					context.strokeStyle = gradient;
+					context.fill();
+				}
+			}
+			
+			function drawRectangle_b(x, y, w, h,context,fill) {
+				context.beginPath();
+
+				context.rect(x, y, w, h,context);
+				drawRoundRect(x, y, w, h, w / 2,context);
+				context.closePath();
+				context.stroke();
+				if(fill) {
+					var gradient = context.createLinearGradient(0, 0, 0, 300);
+					gradient.addColorStop(0, 'white');
+					gradient.addColorStop(1, 'white');
+					context.fillStyle = gradient;
+					context.strokeStyle = gradient;
+					context.fill();
+				}
+			}
+			
+			function drawRectangle1(x, y, w, h, context,fill) {
+				context.beginPath();
+				context.rect(x, y, w, h,context);
+				drawRoundRect(x, y, w, h, w / 2,context);
+				context.closePath();
+				context.stroke();
+				if(fill) {
+					var gradient = context.createLinearGradient(0, 0, 0, 300);
+					gradient.addColorStop(0, 'gray');
+					gradient.addColorStop(1, 'gray');
+					context.fillStyle = gradient;
+					context.strokeStyle = gradient;
+					context.fill();
+				}
+			}
+
+			function drawRoundRect(x, y, width, height, radius,context) {
+				var value = height - width;
+				if(value < 0) {
+					radius = height/2;
+				}
+				context.beginPath();
+				context.arc(x + radius, y + radius, radius, Math.PI, Math.PI * 3 / 2);
+				context.lineTo(width - radius + x, y);
+				context.arc(width - radius + x, radius + y, radius, Math.PI * 3 / 2, Math.PI * 2);
+				context.lineTo(width + x, height + y - radius);
+				context.arc(width - radius + x, height - radius + y, radius, 0, Math.PI * 1 / 2);
+				context.lineTo(radius + x, height + y);
+				context.arc(radius + x, height - radius + y, radius, Math.PI * 1 / 2, Math.PI);
+				context.closePath();
+			}
+		</script>
+
+	</body>
+
+</html>

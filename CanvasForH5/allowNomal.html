@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<title>放行正常率</title>
+		<style type="text/css">
+			.top{
+				text-align: center;
+				vertical-align: middle;
+				width: 100%;
+				height: 100px;
+				font-size: 30px;
+				margin-top: 3rem;
+			}
+			#leftButton{
+				background: #00AAE7;
+				color: white;
+				border-bottom-left-radius: 1rem; 
+				border-top-left-radius: 1rem;
+				border-bottom-right-radius: 0; 
+				border-top-right-radius: 0;
+				width: 45%;
+				height: 6rem;
+				font-size: 40px;
+				border: 1px solid #00AAE7 ;
+				-webkit-appearance:square-button;
+				
+			}
+			#rightButton{
+				background: white;
+				color:  #00AAE7;
+				border-bottom-left-radius: 0; 
+				border-top-left-radius: 0;
+				border-bottom-right-radius: 1rem; 
+				border-top-right-radius: 1rem;
+				width: 45%;
+				height: 6rem;
+				font-size: 40px;
+				border: 1px solid #00AAE7 ;
+				-webkit-appearance: square-button;
+			}
+			.divtop{				
+    				width: 98%;
+    				margin-left: 1%;
+    				height: 37rem; 
+    				text-align: center;
+    				background: url(delayNumberBg.png) no-repeat center;
+    				background-size: contain;
+			}
+			
+			.white::before{
+				background-color: white;
+			}
+			
+			.tabText{
+				position: relative;
+				margin-top: 10px;
+				padding-left: 2rem;
+			}
+			.tabText::before{
+				display: block;
+				position: absolute;
+				top: 0.5rem;
+				left: 0rem;
+				width: 1rem;
+				height: 1rem;
+				content: '';
+				border-radius: 0.5rem;
+			}
+			.tabCont td{
+				text-align: left;
+				font-size: 30px;
+				color: white;
+			}
+			.swiper-container {
+    				width: 100%;
+    				height: 700px;
+				} 
+			.leftdiv{
+				float: left;
+				padding-top: 1rem;
+				padding-left: 2rem;
+				clear: both;
+				font-size: 40px;
+			}
+			.rightdiv{
+				float: right;
+				padding-top: 1rem;
+				padding-right: 2rem;
+				font-size: 40px;
+			}
+		</style>
+		<link rel="stylesheet" href="swiper-3.4.2.min.css">
+	</head>
+	<body>
+		<div class="top">
+			<input type="button"  id="leftButton" value="最近30天" onclick="return leftButtonClicked()"/><input type="button" id="rightButton" value="最近12个月"onclick="rightButtonClicked()"/>
+		</div>
+		<div class="divtop">
+			<table width="100%" cellspacing="0px" style="padding-top: 4rem;padding-left: 2rem;">
+				<tr>
+					<td style="text-align: left;color: white;font-size: 30px;">平均放行正常率</td>
+					<td rowspan="2" style="text-align: right;color: white;font-size: 50px;"></td>
+				</tr>
+				<tr class="tabCont">
+					<td class="tabText white">放行率</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: right;color: white;border-top: 1px solid white;font-size: 30px;">100</td>
+				</tr>
+			</table>
+			
+			<canvas id="bchart" width="850" height="290" ></canvas>
+			<table width="96%" style="padding-left: 4%;" cellspacing="0px" >
+				
+				<tr>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">25</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">26</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">27</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">28</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">29</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">30</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">31</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">01</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">02</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">03</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">04</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">05</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">06</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">07</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">08</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">09</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">10</td>
+				</tr>
+			</table>
+		</div>
+<!--<div style="width: 100%;height: 5rem;border-bottom: 1px solid gray;">
+			<div style="float: left;clear: both;font-size: 40px;">00</div><div style="float: right;font-size: 40px;">501</div>
+		</div>		-->
+<script src="swiper-3.4.2.min.js"></script>
+		
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">03-25</div><div class="rightdiv">88.1%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">03-26</div><div class="rightdiv">85.7%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">03-27</div><div class="rightdiv">84.1%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">03-28</div><div class="rightdiv">85.7%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">03-29</div><div class="rightdiv">85.2%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">03-30</div><div class="rightdiv">73.5%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">03-31</div><div class="rightdiv">43.3%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">04-01</div><div class="rightdiv">76.7%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">04-02</div><div class="rightdiv">86.3%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">04-03</div><div class="rightdiv">86.0%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">04-04</div><div class="rightdiv">90.8%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">04-05</div><div class="rightdiv">88.9%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">04-06</div><div class="rightdiv">77.7%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">04-07</div><div class="rightdiv">86.9%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">04-08</div><div class="rightdiv">78.0%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">04-09</div><div class="rightdiv">82.1%</div></div>
+		<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;"><div class="leftdiv">04-10</div><div class="rightdiv">92.7%</div></div>
+		
+    </div>
+  
+</div>
+<script type="text/javascript">
+			var swiper = new Swiper('.swiper-container', {
+//      pagination: '.swiper-pagination',
+        direction: 'vertical',
+        
+        slidesPerView: 'auto',
+        
+        spaceBetween: 0,
+        mousewheelControl: true
+    });  
+    function leftButtonClicked(){
+				
+				var left=document.getElementById("leftButton");
+				var right=document.getElementById("rightButton");
+				left.style.background= "#00AAE7";
+				left.style.color="white";
+				right.style.background="white";
+				right.style.color= "#00AAE7";
+			}
+			function rightButtonClicked(){
+				var left=document.getElementById("leftButton");
+				var right=document.getElementById("rightButton");
+				left.style.background="white";
+				left.style.color= "#00AAE7";
+				right.style.background= "#00AAE7";
+				right.style.color="white";
+			}
+		</script>			
+		
+		<script type="text/javascript ">
+		  // chart sample data
+        var arrVisitors = new Array();
+        arrVisitors[0] = "25, 88.1";
+        arrVisitors[1] = "26, 85.7";
+        arrVisitors[2] = "27, 84.1";
+        arrVisitors[3] = "28, 85.7";
+        arrVisitors[4] = "29, 84.1";
+        arrVisitors[5] = "30, 85.2";
+        arrVisitors[6] = "31, 73.5";
+        arrVisitors[7] = "01, 43.3";
+        arrVisitors[8] = "02, 76.7";
+        arrVisitors[9] = "03, 86.0";
+        arrVisitors[10] = "04, 90.8 ";
+        arrVisitors[11] = "05, 88.9";
+        arrVisitors[12] = "06, 77.7";
+        arrVisitors[13] = "07, 86.9 ";
+        arrVisitors[14] = "08, 78.0 ";
+        arrVisitors[15] = "09, 82.1";
+        arrVisitors[16] = "10, 92.7 ";
+        
+        var canvas;
+        var context;
+        // chart properties
+        var cWidth, cHeight, cMargin, cSpace;
+        var cMarginSpace, cMarginHeight;
+        // bar properties
+        var bWidth, bMargin, totalBars, maxDataValue;
+        var bWidthMargin;
+        // bar animation
+        var ctr, numctr, speed;
+        // axis property
+        var totLabelsOnYAxis;
+        // barchart constructor
+        window.onload=function (){
+        	barChart();
+        }
+        function barChart() {
+            canvas = document.getElementById('bchart');
+            if (canvas && canvas.getContext) {
+                context = canvas.getContext('2d');
+            }
+            chartSettings();
+            
+            drawChartWithAnimation();
+            drawLine();
+           drawText();
+           drawText2();
+        }
+        // initialize the chart and bar values
+        function chartSettings() {
+            // chart properties
+            cMargin = 25;
+            cSpace = 60;
+            cHeight = canvas.height - 2 * cMargin - cSpace;
+            cWidth = canvas.width - 2 * cMargin - cSpace;
+            cMarginSpace = cMargin + cSpace;
+            cMarginHeight = cMargin + cHeight;
+            // bar properties
+            bMargin = 15;
+            totalBars = arrVisitors.length;
+            bWidth = ((cWidth / totalBars) - bMargin)/2;
+            // find maximum value to plot on chart
+            maxDataValue = 0;
+            for (var i = 0; i < totalBars; i++) {
+                var arrVal = arrVisitors[i].split(", ");
+                var barVal = parseInt(arrVal[1]);
+                if (parseInt(barVal) > parseInt(maxDataValue))
+                    maxDataValue = barVal;
+            }
+            totLabelsOnYAxis = 10;
+            context.font = "10pt Garamond ";
+            
+            // initialize Animation variables
+            ctr = 100;
+            numctr = 100;
+            speed = 10;
+        }
+        
+        
+        
+        function drawChartWithAnimation() {
+            // Loop through the total bars and draw
+            for (var i = 0; i < totalBars; i++) {
+                var arrVal = arrVisitors[i].split(", ");
+                bVal = parseInt(arrVal[1]);
+                bHt = (bVal * 0.01*canvas.height) / numctr * ctr;
+                bX =  (i * (canvas.width/arrVisitors.length)) + bMargin;
+                
+                bY = cMarginHeight - bHt+70;
+                if(i>=0){
+                	if(bHt>0){
+                		drawRectangle(bX, bY, bWidth, bHt, true);
+                	}
+                }else{
+                	
+                }
+                
+            }
+            // timeout runs and checks if bars have reached
+            // the desired height; if not, keep growing
+//          if (ctr < numctr) {
+//              ctr = ctr + 1;
+//              setTimeout(arguments.callee, speed);
+//          }
+        }
+        function drawText(){
+                context.save(); //save和restore可以保证样式属性只运用于该段canvas元素
+                context.strokeStyle = "red"; //设置描边样式
+                context.fillStyle="red";
+				
+                context.font = "30px sans-serif "; //设置字体大小和字体
+                
+                //绘制字体，并且指定位置
+                context.fillText("75%", canvas.width*0.92, canvas.height*0.3);
+ 
+              	context.stroke();//执行绘制
+                
+                context.restore();
+            } 
+         function drawLine(){
+         	context.beginPath();
+//       	context.setLineDash([6, 6]);  
+        		context.moveTo(0,canvas.height - canvas.height*0.8);  
+        		context.lineTo(canvas.width,canvas.height - canvas.height*0.8);
+         
+          	context.lineWidth = 0.5;
+          	context.strokeStyle = "red";
+          	context.stroke();
+         }
+            
+            
+        function drawRectangle(x, y, w, h, fill) {
+            context.beginPath();   
+            
+            context.rect(x, y, w, h);  
+            drawRoundRect( x, y,w,h,w/2);
+            context.closePath();
+            context.stroke();
+            if (fill) {
+                var gradient = context.createLinearGradient(0, 0, 0, 300);
+                gradient.addColorStop(0, '#F5F5F5');
+                gradient.addColorStop(1, '#F5F5F5');
+                context.fillStyle = gradient;
+                context.strokeStyle = gradient;
+                context.fill();
+            }
+        }
+        
+        function drawRoundRect( x, y, width, height, radius){
+        	var value=height-width;
+        	if(value<0){
+        		radius=height/2;
+        	}
+        context.beginPath();   
+        context.arc(x + radius, y + radius, radius, Math.PI, Math.PI * 3 / 2);   
+        context.lineTo(width - radius + x, y);   
+        context.arc(width - radius + x, radius + y, radius, Math.PI * 3 / 2, Math.PI * 2);   
+        context.lineTo(width + x, height-radius+y );   
+        context.arc(width - radius + x, height-radius+y, radius, 0, Math.PI * 1 / 2);   
+        context.lineTo(radius + x, height +y);   
+        context.arc(radius + x, height-radius+y, radius, Math.PI * 1 / 2, Math.PI);   
+        context.closePath();   
+    }   
+        
+        function drawText2(){
+        			context.save(); //save和restore可以保证样式属性只运用于该段canvas元素
+                context.strokeStyle = "white"; //设置描边样式
+                context.fillStyle="white";
+				
+              	context.font = "40px sans-serif"; //设置字体大小和字体
+                
+                //绘制字体，并且指定位置
+                context.fillText("0", canvas.width*0.97, canvas.height*0.98);
+
+              	context.stroke();//执行绘制
+                
+                context.restore();
+        }
+       
+		</script>
+	</body>
+</html>

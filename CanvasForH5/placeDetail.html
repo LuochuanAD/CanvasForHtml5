@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<title>机位详情</title>
+		<style type="text/css">
+			.yellow::before{
+				background-color: yellow;
+			}
+			.green::before{
+				background-color:green;
+			}
+			.blueviolet::before{
+				background-color: blueviolet;
+			}
+			.gray::before{
+				background-color: gray;
+			}
+			
+			.tabText{
+				position: relative;
+				margin-top: 10px;
+			}
+			.tabText::before{
+				display: block;
+				position: absolute;
+				top: 0.5rem;
+				left: 2rem;
+				width: 1rem;
+				height: 1rem;
+				content: '';
+				border-radius: 0.5rem;
+			}
+			.tabCont td{
+				
+				font-size: 30px;
+				color: black;
+			}
+			.progress {
+				width: 100%;
+				height: 12px;
+			 border-radius: 6px; 
+			
+			  background-color: #eee;
+			 
+			  }
+			   .progress::-webkit-progress-bar {
+			   	 background-color: #d7d7d7; 
+			   	 } 
+			   	 .progress::-webkit-progress-value { 
+			   	 	background-color: green; 
+			   	 	}
+			 .divProgress{
+			 	margin-top: 1rem;
+			 	margin-bottom: 1rem;
+			 	width: 100%;
+			 	height: 2rem;
+			 	background: gray;
+			 	border-radius: 1rem;
+			 }
+			 .divprogress{
+			 	height: 2rem;
+			 	background: linear-gradient(90deg, #1CA8C6, #18C89B );
+			 	border-radius: 1rem;
+			 }
+		</style>
+	</head>
+	<body>
+		<div style="width: 100%; height: 400px; text-align: center;">
+			<canvas id="canvas" width="600" height="500" style="background: "#ffffff";"></canvas>
+		</div>
+<table style="width: 100%; margin-top: 10px;">
+	<tr class="tabCont">
+		<td class="tabText yellow" style="width: 25%;text-align: center;font-size: 30px;">长期占用</td>
+		<td class="tabText green" style="width: 25%;text-align: center;font-size: 30px;">空余机位</td>
+		<td class="tabText blueviolet" style="width: 25%;text-align: center;font-size: 30px;">今日停场</td>
+		<td class="tabText gray" style="width: 25%;text-align: center;font-size: 30px;">不可用</td>
+	</tr>
+	<tr>
+		<td style="width: 25%;text-align: center;font-size: 30px;padding-top: 2rem;">0</td>
+		<td style="width: 25%;text-align: center;font-size: 30px;padding-top: 2rem">170</td>
+		<td style="width: 25%;text-align: center;font-size: 30px;padding-top: 2rem">178</td>
+		<td style="width: 25%;text-align: center;font-size: 30px;padding-top: 2rem">0</td>
+	</tr>
+</table>		
+<!--<progress class="progress" value="50" max="100"></progress>-->
+
+
+
+<table style="width: 93%;padding-left: 4%;margin-top: 6rem;">
+	<tr>
+		<td width="66%">A</td>
+		<td width="17%">占用 50</td>
+		<td width="17%">剩余 50</td>
+	</tr>
+	<tr>
+		<td colspan="3"style="border-bottom: 1px solid gray;" ><div class="divProgress"><div class="divprogress" style="width: 50%;"></div></div></td>
+	</tr>
+	
+	<tr>
+		<td width="66%">B</td>
+		<td width="17%">占用 14</td>
+		<td width="17%">剩余 168</td>
+	</tr>
+	<tr>
+		<td colspan="3"style="border-bottom: 1px solid gray;" ><div class="divProgress"><div class="divprogress" style="width: 7.6%;"></div></div></td>
+	</tr>
+	
+	<tr>
+		<td width="66%">C</td>
+		<td width="17%">占用 61</td>
+		<td width="17%">剩余 28</td>
+	</tr>
+	<tr>
+		<td colspan="3"style="border-bottom: 1px solid gray;" ><div class="divProgress"><div class="divprogress" style="width: 66%;"></div></div></td>
+	</tr>
+	
+	<tr>
+		<td width="66%">D</td>
+		<td width="17%">占用 27</td>
+		<td width="17%">剩余 6</td>
+	</tr>
+	<tr>
+		<td colspan="3"style="border-bottom: 1px solid gray;" ><div class="divProgress"><div class="divprogress" style="width: 82%;"></div></div></td>
+	</tr>
+	
+	<tr>
+		<td width="66%">E</td>
+		<td width="17%">占用 35</td>
+		<td width="17%">剩余 4</td>
+	</tr>
+	<tr>
+		<td colspan="3"style="border-bottom: 1px solid gray;" ><div class="divProgress"><div class="divprogress" style="width: 90%;"></div></div></td>
+	</tr>
+	
+	<tr>
+		<td width="66%">F</td>
+		<td width="17%">占用 1</td>
+		<td width="17%">剩余 4</td>
+	</tr>
+	<tr>
+		<td colspan="3"style="border-bottom: 1px solid gray;" ><div class="divProgress"><div class="divprogress" style="width: 20%;"></div></div></td>
+	</tr>
+	
+	
+</table>
+
+		<script type="text/javascript">
+			window.onload = function(){
+            var canvas = document.getElementById('canvas'),  //获取canvas元素
+                context = canvas.getContext('2d'),  //获取画图环境，指明为2d
+                
+                centerX = canvas.width/2,   //Canvas中心点x轴坐标
+                centerY = canvas.height/2,  //Canvas中心点y轴坐标
+                rad = Math.PI/180*240/1000, //将270度分成1000份，那么每一份就是rad度
+                speed = 0; //加载的快慢就靠它了 
+                speed2=0;
+                speed3=0
+                speed4=0;
+                was=0/348*1000;
+                will=170/348*1000;
+                delay=178/348*1000
+                cancel=0/348*1000
+            //绘制外圈
+            function wasCircle(n){
+            	if(n<=0){
+            		return;
+            	}
+                context.save();
+                context.strokeStyle = "yellow"; //设置描边样式
+                context.lineCap="round";
+                context.radius=30;
+                context.lineWidth = 30; //设置线宽
+                context.beginPath(); //路径开始
+                context.arc(centerX, centerY, 200 , -Math.PI/180*210, -Math.PI/180*210 +n*rad,false); //用于绘制圆弧context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
+                context.stroke(); //绘制
+                context.closePath(); //路径结束
+                context.restore();
+            }
+            function willCircle(n){
+            	if(n<=0){
+            		return;
+            	}
+                context.save();
+                context.strokeStyle = "cadetblue"; //设置描边样式
+                context.lineCap="round";
+                context.radius=30;
+                context.lineWidth = 30; //设置线宽
+                context.beginPath(); //路径开始
+                context.arc(centerX, centerY, 200 , -Math.PI/180*210+was*rad+rad, -Math.PI/180*210+n*rad+was*rad+rad,false); //用于绘制圆弧context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
+                context.stroke(); //绘制
+                context.closePath(); //路径结束
+                context.restore();
+            }
+            function delayCircle(n){
+            	if(n<=0){
+            		return;
+            	}
+                context.save();
+                context.strokeStyle = "blueviolet"; //设置描边样式
+                context.lineCap="round";
+                context.radius=30;
+                context.lineWidth = 30; //设置线宽
+                context.beginPath(); //路径开始
+                context.arc(centerX, centerY, 200 , -Math.PI/180*210+was*rad+will*rad, -Math.PI/180*210+n*rad+was*rad+will*rad,false); //用于绘制圆弧context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
+                context.stroke(); //绘制
+                context.closePath(); //路径结束
+                context.restore();
+            }
+            function cancleCircle(n){
+            	if(n<=0){
+            		return;
+            	}
+                context.save();
+                context.strokeStyle = "gray"; //设置描边样式
+                context.lineCap="round";
+                context.radius=30;
+                context.lineWidth = 30; //设置线宽
+                context.beginPath(); //路径开始
+                context.arc(centerX, centerY, 200 , -Math.PI/180*210+was*rad+will*rad+delay*rad, -Math.PI/180*210+n*rad+was*rad+will*rad+delay*rad,false); //用于绘制圆弧context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
+                context.stroke(); //绘制
+                context.closePath(); //路径结束
+                context.restore();
+            }
+            
+            //文字绘制
+            function text(){
+                context.save(); //save和restore可以保证样式属性只运用于该段canvas元素
+                context.strokeStyle = "white"; //设置描边样式
+                context.fillStyle="black";
+				
+              context.font = "80px sans-serif"; //设置字体大小和字体
+                
+                //绘制字体，并且指定位置
+                context.fillText("348", centerX-55, centerY-20);
+                context.fillStyle="cadetblue";
+                context.font = "40px sans-serif";
+                context.fillText("总数", centerX-50, centerY+60);
+              	context.stroke();//执行绘制
+                
+                context.restore();
+            } 
+            
+            
+            
+            function drawRoundRect(x,y,width,height,radius){
+            		context.beginPath();   
+        			context.arc(x + radius, y + radius, radius, Math.PI, Math.PI * 3 / 2);   
+        			context.lineTo(width - radius + x, y);   
+        			context.arc(width - radius + x, radius + y, radius, Math.PI * 3 / 2, Math.PI * 2);   
+        			context.lineTo(width + x, height + y - radius);   
+        			context.arc(width - radius + x, height - radius + y, radius, 0, Math.PI * 1 / 2);   
+        			context.lineTo(radius + x, height +y);   
+        			context.arc(radius + x, height - radius + y, radius, Math.PI * 1 / 2, Math.PI);   
+        			context.closePath();
+            }
+            //动画循环
+            (function drawFrame(){
+                window.requestAnimationFrame(drawFrame, canvas);
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                text();
+ 
+                
+                
+                if(speed<was){
+                	speed +=3;
+                }else{
+                	speed=was;
+                	
+                }
+                	wasCircle(speed);
+                if(speed==was){
+                if(speed2<will){
+                		speed2 +=3;
+                	}else{
+                		speed2=will;
+                		
+                	}
+                	willCircle(speed2);
+                }
+            if(speed2==will){
+                if(speed3<delay){
+                			speed3 +=3;
+                		}else{
+                			speed3=delay;
+                			
+                		}
+                		delayCircle(speed3);
+                	}
+            if(speed3==delay){
+            	if(speed4<cancel){
+                		speed4 +=3;
+                	}else{
+                		speed4=cancel;
+                	}
+              	cancleCircle(speed4);
+            }
+                
+            }());
+        }
+		</script>
+	</body>
+</html>

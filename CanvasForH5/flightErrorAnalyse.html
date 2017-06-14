@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<title>航班异常分析</title>
+
+		<style type="text/css">
+			.top {
+				text-align: center;
+				vertical-align: middle;
+				width: 100%;
+				height: 100px;
+				font-size: 30px;
+				margin-top: 3rem;
+			}
+			
+			#leftButton {
+				background: #1DABE2;
+				color: white;
+				border-bottom-left-radius: 1rem;
+				border-top-left-radius: 1rem;
+				border-bottom-right-radius: 0;
+				border-top-right-radius: 0;
+				width: 45%;
+				height: 6rem;
+				font-size: 40px;
+				border: 1px solid #1DABE2;
+				-webkit-appearance: square-button;
+			}
+			
+			#rightButton {
+				background: white;
+				color: #1DABE2;
+				border-bottom-left-radius: 0;
+				border-top-left-radius: 0;
+				border-bottom-right-radius: 1rem;
+				border-top-right-radius: 1rem;
+				width: 45%;
+				height: 6rem;
+				font-size: 40px;
+				border: 1px solid #1DABE2;
+				-webkit-appearance: square-button;
+			}
+			
+			.swiper-container {
+				width: 100%;
+				height: 100%;
+				margin-bottom: 5rem;
+			}
+			
+			.swiper-container-v {
+				width: 100%;
+				height: 700px;
+			}
+			
+			.aswiper-button-prev {}
+			
+			.aswiper-button-next {}
+			
+			.divtopOne {
+				width: 98%;
+				margin-left: 1%;
+				height: 38rem;
+				text-align: center;
+				background: url(flightError.png) no-repeat center;
+				background-size: contain;
+			}
+			
+			.divtopTwo {
+				width: 98%;
+				margin-left: 1%;
+				height: 38rem;
+				text-align: center;
+				background: url(delayNumberBg.png) no-repeat center;
+				background-size: contain;
+			}
+			.leftdivFirst {
+				width: 70%;
+				font-size: 40px;
+				float: left;
+			}
+			
+			.rightdivFirst {
+				width: 15%;
+				font-size: 40px;
+				float: left;
+			}
+			
+			.leftdiv {
+				/*width: 70%;*/
+				padding-top: 1rem;
+				padding-left: 1rem;
+				font-size: 40px;
+				float: left;
+				clear: both;
+			}
+			
+			.rightdiv {
+				/*width: 30%;*/
+				text-align: center;
+				padding-top: 1rem;
+				padding-right: 1rem;
+				font-size: 40px;
+				float: right;
+			}
+			
+			.yellow::before {
+				background-color: yellow;
+			}
+			
+			.white::before {
+				background-color: white;
+			}
+			
+			.tabText {
+				position: relative;
+				margin-top: 10px;
+				padding-left: 2rem;
+			}
+			
+			.tabText::before {
+				display: block;
+				position: absolute;
+				top: 0.5rem;
+				left: 0rem;
+				width: 1rem;
+				height: 1rem;
+				content: '';
+				border-radius: 0.5rem;
+			}
+			
+			.tabCont td {
+				text-align: left;
+				font-size: 30px;
+				color: white;
+			}
+		</style>
+		<link rel="stylesheet" href="swiper-3.4.2.min.css">
+	</head>
+
+	<body>
+
+		<div class="top">
+			<input class="aswiper-button-prev" type="button" id="leftButton" value="异常原因" onclick="return leftButtonClicked()" /><input class="aswiper-button-next" type="button" id="rightButton" value="区域平均延误时间" onclick="rightButtonClicked()" />
+		</div>
+		<script src="swiper-3.4.2.min.js"></script>
+		<div class="swiper-container swiper-container-h">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<div class="divtopOne">
+						<canvas id="a_canvas" width="850" height="450" style=" margin-top: 5rem;"></canvas>
+					</div>
+					<div style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;">
+						<div class="leftdivFirst">其他</div>
+						<div class="rightdivFirst" style="color: orange;">0架次,</div>
+						<div class="rightdivFirst" style="color: #1DABE2;">0.0%</div>
+					</div>
+
+				</div>
+				<div class="swiper-slide">
+					<div class="divtopTwo">
+						<table width="100%" cellspacing="0px" style="padding-top: 3rem;padding-left: 2rem;">
+							<tr>
+								<td colspan="2" style="text-align: left;color: white;font-size: 30px;">区域平均延误时间</td>
+
+							</tr>
+							<tr class="tabCont">
+								<td width="35%" class="tabText white">区域平均延误时间</td>
+								<td width="65%" class="tabText yellow">出港航班数</td>
+							</tr>
+							<tr>
+								<td colspan="2" style="text-align: right;color: white;border-top: 1px solid white;font-size: 30px;">1</td>
+							</tr>
+						</table>
+
+						<canvas id="b_canvas" width="900" height="290" ></canvas>
+						<table width="93%" cellspacing="0px" style="margin-left: 5%;">
+							<tr>
+								<td colspan="8" style="text-align: right;color: white;;font-size: 30px;">0</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">华东</td>
+								<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">西南</td>
+								<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">新疆</td>
+								<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">中南</td>
+								<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">东北</td>
+								<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">西北</td>
+								<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">国际</td>
+								<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">华北</td>
+
+							</tr>
+						</table>
+					</div>
+					<div class="swiper-container swiper-container-v" >
+						<div class="swiper-wrapper">
+							<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;">
+								<div class="leftdiv">华东</div>
+								<div class="rightdiv">0min,0架</div>
+							</div>
+							<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;">
+								<div class="leftdiv">西南</div>
+								<div class="rightdiv">0min,0架</div>
+							</div>
+							<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;">
+								<div class="leftdiv">新疆</div>
+								<div class="rightdiv">0min,0架</div>
+							</div>
+							<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;">
+								<div class="leftdiv">中南</div>
+								<div class="rightdiv">0min,0架</div>
+							</div>
+							<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;">
+								<div class="leftdiv">东北</div>
+								<div class="rightdiv">0min,0架</div>
+							</div>
+							<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;">
+								<div class="leftdiv">西北</div>
+								<div class="rightdiv">0min,0架</div>
+							</div>
+							<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;">
+								<div class="leftdiv">国际</div>
+								<div class="rightdiv">0min,0架</div>
+							</div>
+							<div class="swiper-slide" style="width: 100%;height: 5rem;border-bottom: 1px solid gray;padding-bottom: 1rem;padding-top: 1rem;">
+								<div class="leftdiv">华北</div>
+								<div class="rightdiv">0min,0架</div>
+							</div>
+							
+							
+						</div>
+					</div>
+
+
+
+
+				</div>
+
+			</div>
+		</div>
+
+		<script language="JavaScript">
+			
+			var swiper = new Swiper('.swiper-container-v', {
+
+				direction: 'vertical',
+
+				slidesPerView: 'auto',
+
+				spaceBetween: 0,
+				mousewheelControl: true
+			});
+			var swiper1 = new Swiper('.swiper-container-h', {
+
+				direction: 'horizontal',
+				slidesPerView: 'auto',
+				nextButton: '.aswiper-button-next',
+				prevButton: '.aswiper-button-prev',
+				spaceBetween: 0,
+				mousewheelControl: true,
+				onSlideNextStart: function(swiper) {
+					rightButtonClicked();
+
+				},
+				onSlidePrevStart: function(swiper) {
+					leftButtonClicked();
+
+				}
+				
+			});
+
+			function leftButtonClicked() {
+
+				var left = document.getElementById("leftButton");
+				var right = document.getElementById("rightButton");
+				left.style.background = "#1DABE2";
+				left.style.color = "white";
+				right.style.background = "white";
+				right.style.color = "#1DABE2";
+
+			}
+
+			function rightButtonClicked() {
+				var left = document.getElementById("leftButton");
+				var right = document.getElementById("rightButton");
+				left.style.background = "white";
+				left.style.color = "#1DABE2";
+				right.style.background = "#1DABE2";
+				right.style.color = "white";
+
+			}
+		</script>
+		<script>
+			var a_canvas;
+			var a_context;
+
+			var b_canvas;
+			var b_context;
+
+			window.onload = function() {
+				a_canvas = document.getElementById('a_canvas');
+				if(a_canvas && a_canvas.getContext) {
+					a_context = a_canvas.getContext('2d');
+				}
+
+				b_canvas = document.getElementById('b_canvas');
+				if(b_canvas && b_canvas.getContext) {
+					b_context = b_canvas.getContext('2d');
+				}
+
+				a_centerX = a_canvas.width / 3, //Canvas三分之一x轴坐标
+					a_centerY = a_canvas.height / 2, //Canvas中心点y轴坐标
+					rad = Math.PI * 2 / 100, //将360度分成100份，那么每一份就是rad度
+
+					whiteCircle(a_context, a_centerX, a_centerY);
+				text(a_context, a_centerX, a_centerY);
+				list(a_context, a_centerX, a_centerY);
+				
+				var white_data = [17, 3, 15, 5, 14, 3, 27, 5];
+				var yellow_data = [10, 13, 5, 5, 4, 13, 27, 15];
+				var white="white";
+				var yellow="yellow";
+				lineChart(b_context,b_canvas,white_data,white);//context,canvas,data,color
+				lineChart(b_context,b_canvas,yellow_data,yellow);
+			}
+			//绘制内圈
+			function whiteCircle(context, centerX, centerY) {
+				context.save();
+				context.beginPath();
+				context.radius = 80;
+				context.lineWidth = 80;
+				context.strokeStyle = "#81EF7D";
+				context.arc(centerX, centerY, 170, 0, Math.PI * 2, false);
+				context.stroke();
+				context.closePath();
+				context.restore();
+			}
+			//文字绘制
+			function text(context, centerX, centerY) {
+				context.save(); //save和restore可以保证样式属性只运用于该段canvas元素
+				context.strokeStyle = "#81EF7D"; //设置描边样式
+				context.fillStyle = "#1DABE2";
+
+				context.font = "80px sans-serif"; //设置字体大小和字体
+
+				//绘制字体，并且指定位置
+				context.fillText("0", centerX - 20, centerY - 10);
+				context.font = "40px sans-serif";
+				context.fillText("延误总数", centerX - 75, centerY + 40);
+				context.stroke(); //执行绘制
+				context.restore();
+			}
+
+			function list(context, centerX, centerY) {
+
+				context.save(); //save和restore可以保证样式属性只运用于该段canvas元素
+				context.beginPath();
+				context.arc(centerX * 3 * 0.9 - 20, centerY * 2 * 0.9 - 10, 10, 0, 360, false);
+				context.fillStyle = "#81EF7D";
+				context.fill();
+				context.closePath();
+				context.strokeStyle = "#81EF7D"; //设置描边样式
+				context.fillStyle = "black";
+				context.font = "30px sans-serif";
+				context.fillText("其他", centerX * 3 * 0.9, centerY * 2 * 0.9);
+
+				context.stroke(); //执行绘制
+				context.restore();
+			}
+			function lineChart(context,canvas,data,color) {
+				
+				// 绘制背景
+				var gradient = context.createLinearGradient(0, 0, 0, 300);
+
+				context.fillStyle = gradient;
+
+				context.fillRect(0, 0, canvas.width, canvas.height);
+
+				// 描绘边框
+				var grid_cols = data.length + 1;
+				var grid_rows = 8;
+				var cell_height = canvas.height / grid_rows;
+				var cell_width = canvas.width / grid_cols;
+				context.lineWidth = 1;
+				context.strokeStyle = "#a0a0a0";
+
+				var max_v = 60;
+
+				for(var i = 0; i < data.length; i++) {
+					var d = 0;
+					if(data[i] < 0) {
+						d = d - data[i];
+					} else { d = data[i]; };
+					if(d > max_v) { max_v = d };
+				}
+				max_v = max_v * 1.0;
+				// 将数据换算为坐标
+				var points = [];
+				for(var i = 0; i < data.length; i++) {
+					var v = data[i];
+					var px = cell_width * 　(i + 1);
+					var py = canvas.height - canvas.height * (v / max_v);
+					points.push({ "x": px, "y": py });
+				}
+
+				
+
+				// 绘制折现
+				context.beginPath();
+				context.moveTo(points[0].x, points[0].y);
+				for(var i = 1; i < points.length; i++) {
+					context.lineTo(points[i].x, points[i].y);
+				}
+
+				context.lineWidth = 4;
+				context.strokeStyle = color;
+				context.stroke();
+
+				//绘制坐标图形
+				for(var i in points) {
+					if(i < 19) {
+						var p = points[i];
+
+						context.beginPath();
+						context.lineWidth = 4;
+						context.radius = 4;
+						context.strokeStyle = "white";
+						context.fillStyle = color;
+						context.arc(p.x, p.y, 7, 0, Math.PI * 2, false);
+
+						context.stroke();
+						context.fill();
+						context.closePath();
+					} else {
+
+					}
+
+				}
+
+			}
+		</script>
+
+	</body>
+
+</html>

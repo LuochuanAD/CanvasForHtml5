@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>延误指标</title>
+		<style type="text/css">
+			.top{				
+    				width: 98%;
+    				margin-left: 1%;
+    				height: 38rem; 
+    				text-align: center;
+    				background: url(delayNumberBg.png) no-repeat center;
+    				background-size: contain;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="top">
+			<table width="100%" cellspacing="0px" style="padding-top: 4rem;padding-left: 2rem;">
+				<tr>
+					<td colspan="2" style="text-align: left;color: white;padding-bottom: 2rem;font-size: 30px;">执行率</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: right;color: white;border-top: 1px solid white;font-size: 30px;">133</td>
+				</tr>
+			</table>
+			
+			<canvas id="a_canvas" width="950" height="300"></canvas>
+			<table width="100%" cellspacing="0px" >
+				<tr>
+					<td colspan="8" style="text-align: right;color: white;;font-size: 30px;">0</td>
+				</tr>
+				<tr>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">08</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">10</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">12</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">14</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">16</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">18</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">20</td>
+					<td style="text-align: center;color: white;border-top: 1px solid white;font-size: 30px;">22</td>
+					
+				</tr>
+			</table>
+		</div>
+	<table style="width: 100%;height: 27rem;" cellspacing="0px">
+	<tr>
+	<td width="10%" style="padding-left: 2rem;border-bottom: 1px solid gray;"><img src="delayNumber_all.png"alt="on" width="35px" height="35px"/></td>
+	<td width="40%" style="text-align: left;font-size: 40px;color:black;border-bottom: 1px solid gray;">航站楼滞留旅客</td>
+	<td width="50%" style="text-align: right;font-size: 40px;color: black;border-bottom: 1px solid gray;padding-right: 2rem;">15374</td>
+	</tr>
+	<tr>
+	<td width="10%" style="padding-left: 2rem;border-bottom: 1px solid gray;"><img src="delayNumber_percent.png" alt="out"width="35px" height="35px"/></td>
+	<td width="40%" style="text-align: left;font-size: 40px;color: black;border-bottom: 1px solid gray;">延误&gt;1h航班出港率</td>	
+	<td width="50%" style="text-align: right;font-size: 40px;color: black;border-bottom: 1px solid gray;padding-right: 2rem;">0.0%</td>
+	</tr>
+	<tr>
+	<td width="10%" style="padding-left: 2rem;border-bottom: 1px solid gray;"><img src="delayNumber_min.png" alt="out"width="35px" height="35px"/></td>
+	<td width="40%" style="text-align: left;font-size: 40px;color: black;border-bottom: 1px solid gray;">无起降航班min</td>	
+	<td width="50%" style="text-align: right;font-size: 40px;color: black;border-bottom: 1px solid gray;padding-right: 2rem;">3</td>
+	</tr>
+</table>	
+		
+		
+		
+		<script type="text/javascript">
+			(function (){
+ 
+        window.addEventListener("load", function(){
+ 
+          var data = [90,100,90,90,50,70,50,60,70,60,80,90,100,100,100,100];
+ 
+          // 获取上下文
+          var a_canvas = document.getElementById('a_canvas');
+          var context = a_canvas.getContext("2d");
+ 		  var minDataValue=100000000;
+		  for (var i = 0; i<data.length; i++) {
+                var barVal = parseInt(data[i]);
+                if (parseInt(barVal) < parseInt(minDataValue))
+                    minDataValue = barVal;
+            }
+ 
+          // 绘制背景
+          var gradient = context.createLinearGradient(0,0,0,300);
+ 
+ 
+         // gradient.addColorStop(0,"#e0e0e0");
+          //gradient.addColorStop(1,"#ffffff");
+ 
+ 
+          context.fillStyle = gradient;
+ 
+          context.fillRect(0,0,a_canvas.width,a_canvas.height);
+ 
+          
+          // 描绘边框
+          var grid_cols = data.length + 1;
+          var grid_rows = 4;
+          var cell_height = a_canvas.height / grid_rows;
+          var cell_width = a_canvas.width / grid_cols;
+          context.lineWidth = 1;
+          context.strokeStyle = "#a0a0a0";
+ 
+         
+ 
+          var max_v =0;
+          
+          for(var i = 0; i<data.length; i++){
+              var d=0;
+              if(data[i]<0)
+              {d=d-data[i];
+                  }
+                  else{d=data[i];};
+            if (d > max_v) { max_v =d};
+          }
+          max_v = max_v * 1.1;
+          // 将数据换算为坐标
+          var points = [];
+          for( var i=0; i < data.length; i++){
+            var v= data[i];
+            var px = cell_width *　(i +1);
+            var py = a_canvas.height - a_canvas.height*(v / max_v);
+            points.push({"x":px,"y":py});
+          }
+          // 绘制折现
+          context.beginPath();
+          context.moveTo(points[0].x, points[0].y);
+          for(var i= 1; i< points.length; i++){
+            context.lineTo(points[i].x,points[i].y);
+          }
+          
+          context.lineWidth = 4;
+          context.strokeStyle = "white";
+          context.stroke();
+ 
+ 		context.save();
+           // 结束边框描绘
+          context.beginPath();
+          // 准备画横线
+         /*for (var col = 0; col <= grid_cols; col++) {
+            var x = col * cell_width;
+            context.moveTo(x,0);
+            context.lineTo(x,a_canvas.height);
+          }
+          // 准备画竖线
+          for(var row = 0; row <= grid_rows; row++){
+            var y = row * cell_height;
+            context.moveTo(0,y);
+            context.lineTo(a_canvas.width, y);
+          }*/
+            //划横线
+//         context.moveTo(0,a_canvas.height - a_canvas.height*(50 / max_v));
+//          context.lineTo(a_canvas.width,a_canvas.height - a_canvas.height*(50 / max_v));
+             
+            //画竖线
+//        context.moveTo(0,0);
+//          context.lineTo(0,a_canvas.height);
+	
+
+
+         context.setLineDash([6, 6]);  
+        context.moveTo(0,a_canvas.height - a_canvas.height*(minDataValue / max_v));  
+        context.lineTo(a_canvas.width,a_canvas.height - a_canvas.height*(minDataValue / max_v));
+         
+          context.lineWidth = 1;
+          context.strokeStyle = "red";
+          context.stroke();
+          context.restore();
+    
+          //绘制坐标图形
+          for(var i in points){
+            var p = points[i];
+            context.beginPath();
+            context.lineWidth = 4;
+			context.radius = 4;
+            context.arc(p.x,p.y,7,0,2*Math.PI);
+            //实心圆
+           /*
+            context.fillStyle = "#000";*/
+            //空心圆
+            context.strokeStyle = "white";
+            context.stroke();
+            context.fillStyle="#009CEF";
+            context.fill();
+          }
+          //添加文字
+//        for(var i in points)
+//        {  var p = points[i];
+//          context.beginPath();
+//          context.fillStyle="black";
+//          context.fillText(data[i], p.x + 1, p.y - 15);
+//             
+//            }
+            context.beginPath();
+            context.fillStyle="red";
+            context.font = "25px sans-serif";
+            
+            context.fillText(minDataValue, a_canvas.width-50,a_canvas.height - a_canvas.height*(minDataValue / max_v));
+// context.save(); //save和restore可以保证样式属性只运用于该段canvas元素
+//              context.strokeStyle = "white"; //设置描边样式
+//              context.fillStyle="red";
+//				
+//            context.font = "40px sans-serif"; //设置字体大小和字体
+//              
+//              //绘制字体，并且指定位置
+//              context.fillText(minDataValue, centerX-55, a_canvas.height - a_canvas.height*(minDataValue / max_v)/9*8);
+//
+//            	context.stroke();//执行绘制
+//              
+//              context.restore();
+        },false);
+      })();
+ 	
+		</script>
+	</body>
+</html>
