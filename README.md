@@ -6,3 +6,10 @@ html+css+javascript canvas
 
 
 ![image](https://github.com/LuochuanAD/CanvasForHtml5/blob/master/CanvasForH5/Untitled.gif)
+
+
+
+
+
+博客地址:http://blog.csdn.net/luochuanad/article/details/73251792
+
