@@ -11,5 +11,5 @@ html+css+javascript canvas
 
 
 
-博客地址:http://blog.csdn.net/luochuanad/article/details/73251792
+博客地址:http://blog.csdn.net/luochuanAD/article/category/6870944
 
